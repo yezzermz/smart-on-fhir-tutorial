@@ -6,5 +6,55 @@
     <title>Example-SMART-App</title>
   </head>
   <body>
+    <script>
+        export default function Redirect() {
+        // const router = useRouter();
+
+        const searchParams = useSearchParams();
+
+        useEffect(() => {
+            const code = searchParams.get("code");
+            const state = searchParams.get("state");
+
+            const clientId = "e8ce2bfe-cbf9-4638-8e6e-0567da378389";
+            const redirectUri = "https://yezzermz.github.io/smart-on-fhir-tutorial/example-smart-app/";
+
+            if (code) {
+            console.log("code: ", code);
+            }
+
+            if (state) {
+            console.log("state: ", state);
+            }
+
+            if (code && state) {
+            const body = `grant_type=${encodeURIComponent(
+                "authorization_code"
+            )}&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(
+                redirectUri
+            )}&client_id=${encodeURIComponent(clientId)}`;
+
+            fetch("https://fhir-ehr.cerner.com/dstu2/3fe59471-3589-4f65-b447-b92822bfc057/hosts/fhir-ehr-code.cerner.com/protocols/oauth2/profiles/smart-v1/token", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: body,
+            })
+                .then((response) => {
+                response.json().then((data) => {
+                    if (!response.ok) {
+                    console.error("Response Error Data: ", data);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    console.log("Access Token Data: ", data);
+                });
+                })
+                .catch((error) => {
+                console.error("Error:", error);
+                });
+            }
+        }, [searchParams]);
+      </script>
   </body>
 </html>
