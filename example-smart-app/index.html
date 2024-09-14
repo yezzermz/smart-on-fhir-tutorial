@@ -96,6 +96,19 @@
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
+
+      function getQueryParam(name) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(name);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+          const code = getQueryParam('code');
+          const state = getQueryParam('state');
+      });
+
+      console.log(code);
+      console.log(state);
     </script>
   </body>
 </html>
