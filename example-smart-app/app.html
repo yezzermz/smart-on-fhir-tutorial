@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src='https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js'></script>
+    <script
+			  src="https://code.jquery.com/jquery-3.7.1.min.js"
+			  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			  crossorigin="anonymous"></script>
+  </head>
+
+<body>
+  <pre id="med"></pre>
+<script>
+
+  var myApp = {}
+
+  FHIR.oauth2.ready()
+  .then(function(client){
+    myApp.smart = client
+    doRequests()
+  })
+
+  async function doRequests(){
+    
+    var meds = await fetch(myApp.smart.state.serverUrl+"/MedicationOrder?patient="+myApp.smart.patient.id,{
+      headers:{
+        "Accept": "application/json+fhir",
+        "Authorization": "Bearer "+myApp.smart.state.tokenResponse.access_token
+      }
+      }).then(function(data){
+        return data
+  })
+
+  var response = await meds.json()
+    console.log(response)
+    $("#meds").text(JSON.stringify(response, null, '\t'))
+
+  }
+</script>
+
+  
+</body>
+  
+</html>

@@ -1,41 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
-    -->
-    <title>Example-SMART-App</title>
-  </head>
-  <body>
-    <p id="response"></p>
-    <!-- Required JS files to enable this page to embed within an MPage -->
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-      <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
-    -->
+<html>
 
-    <!-- FHIR Client JS Library -->
-    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Launching FHIR Client</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    .outer {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+      /* Ensure it takes up the full height of the body */
+      text-align: center;
+      /* Center text horizontally */
+    }
 
-    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
-    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
-    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
-    <script>
-      FHIR.oauth2.authorize({
-        'client_id': '942bdd4d-eb2a-464c-a1c3-67eb23104648',
-        'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile',
-        'redirect-uri': 'https://yezzermz.github.io/smart-on-fhir-tutorial/example-smart-app/'
-      });
-    </script>
-    <div class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
-    </div>
-  </body>
+    .spinner-border {
+      /* You can adjust the size and color of the spinner here */
+      width: 3rem;
+      height: 3rem;
+      border: 0.3em solid #00a9a7;
+      /* Spinner color */
+      border-top: 0.3em solid #000;
+      /* Spinner animation color */
+      border-radius: 50%;
+    }
+
+    .sr-only {
+
+      color: black;
+      margin-top: 0.5rem;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="outer">
+    <div class="spinner-border" role="status"></div>
+    <p class="sr-only">Loading...</p>
+  </div>
+</body>
+
+
+<script>
+  FHIR.oauth2.authorize({
+    'client_id': 'e8ce2bfe-cbf9-4638-8e6e-0567da378389',
+    'scope': 'patient/Patient.read patient/Observation.read launch online_access openid profile'
+  });
+</script>
+
 </html>
